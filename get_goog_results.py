@@ -6,10 +6,12 @@ dirname = os.getcwd() + '/Data/audio'
 folders = [folder for folder in os.listdir(dirname)]
 
 goog_results = pd.DataFrame(columns=['label', 'transcript'])
-
+testfolders = ['CM13', 'F04', 'M14', 'M16']
+testfolders = [i for i in testfolders if i in folders]
 r = sr.Recognizer()
 
-for folder in folders:
+for folder in testfolders:
+
     wavefiles = [f for f in os.listdir(dirname + '/' + folder) if f[-4:] == '.wav']
     labels = []
     transcripts = []
@@ -26,6 +28,7 @@ for folder in folders:
             print(wavefile[0:-4] + ': 0')
             transcripts.append('0')
             labels.append(wavefile[0:-4])
+
     results = pd.DataFrame(data={'label': labels, 'transcript': transcripts})
     goog_results = goog_results.append(results)
 
