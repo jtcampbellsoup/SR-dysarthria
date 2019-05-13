@@ -24,7 +24,7 @@ for folder in testfolders:
     wavefiles = [f for f in os.listdir(dirname + '/' + folder) if f[-4:] == '.wav']
 
     for wavefile in wavefiles:
-        vals = trans_DF.loc[trans_DF.label == wavefile, 'test'].values
+        vals = trans_DF.loc[trans_DF.label == wavefile[0:-4], 'test'].values
         if vals.size == 0:
             os.rename(dirname + '/' + folder + '/' + wavefile,
                       dirname + '/dev/' + wavefile)
