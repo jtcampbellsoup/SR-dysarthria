@@ -11,17 +11,20 @@ labels = []
 transcripts = []
 
 for wavefile in wavefiles:
-    with sr.AudioFile(folder + '/' + wavefile) as source:
-        audio = r.record(source)
     try:
-        word = r.recognize_google(audio)
-        print(wavefile[0:-4] + ': ' + word)
-        transcripts.append(word)
-        labels.append(wavefile[0:-4])
-    except sr.UnknownValueError:
-        print(wavefile[0:-4] + ': 0')
-        transcripts.append('0')
-        labels.append(wavefile[0:-4])
+        with sr.AudioFile(folder + '/' + wavefile) as source:
+            audio = r.record(source)
+        try:
+            word = r.recognize_google(audio).lower()
+            print(wavefile[0:-4] + ': ' + word)
+            transcripts.append(word)
+            labels.append(wavefile[0:-4])
+        except sr.UnknownValueError:
+            print(wavefile[0:-4] + ': NA')
+            transcripts.append('NA')
+            labels.append(wavefile[0:-4])
+    except ValueError('audio file corrupt'):
+        os.remove(folder + '/' + wavefile)
 
 goog_results = pd.DataFrame(data={'label': labels, 'transcript': transcripts})
 
