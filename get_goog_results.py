@@ -23,7 +23,8 @@ for wavefile in wavefiles:
             print(wavefile[0:-4] + ': NA')
             transcripts.append('NA')
             labels.append(wavefile[0:-4])
-    except ValueError('audio file corrupt'):
+    except:
+        print('audio file corrupt')
         os.remove(folder + '/' + wavefile)
 
 goog_results = pd.DataFrame(data={'label': labels, 'transcript': transcripts})
