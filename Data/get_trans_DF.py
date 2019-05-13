@@ -27,4 +27,15 @@ trans_DF = trans_DF.sort_values(['P1','P2','P3','P4']).reset_index(drop = True)
 cols = list(trans_DF)
 cols.append(cols.pop(cols.index('word')))
 trans_DF = trans_DF[cols]
+
+# split into train/dev/test
+np.random.seed(100)
+trans_DF = trans_DF.assign(train = np.where((trans_DF.P1 == 'F04') | (trans_DF.P1 ==
+                            'M14') | (trans_DF.P1 == 'M16') | (trans_DF.P1 == 'CM13'), 0,
+                            1))
+devind = np.random.rand(trans_DF.shape[0])
+trans_DF = trans_DF.assign(dev = np.where((devind <= 0.6) & (trans_DF.train == 0) & (
+    trans_DF.P1 != 'CM13'), 1, 0))
+trans_DF = trans_DF.assign(test = np.where((trans_DF.train == 0) & (trans_DF.dev == 0), 1,
+                                           0))
 trans_DF.to_csv(os.getcwd() + '/trans_DF.csv')
