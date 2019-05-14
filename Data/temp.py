@@ -13,16 +13,23 @@ devwavefiles = [f for f in os.listdir(devfolder) if f[-4:] == '.wav']
 testwavefiles = [f for f in os.listdir(testfolder) if f[-4:] == '.wav']
 
 count = 0
+labels = list(trans_DF.label)
 for wavefile in trainwavefiles:
-    match = trans_DF.loc[trans_DF.label == wavefile[0:-4]]
-    if match.shape[0] == 1:
+    if wavefile[0:-4] in labels:
         count += 1
+        print(count)
+    else:
+        os.remove(os.getcwd()+'/audio/train/' + wavefile)
 for wavefile in devwavefiles:
-    match = trans_DF.loc[trans_DF.label == wavefile[0:-4]]
-    if match.shape[0] == 1:
+    if wavefile[0:-4] in labels:
         count += 1
+        print(count)
+    else:
+        os.remove(os.getcwd()+'/audio/dev/' + wavefile)
 for wavefile in testwavefiles:
-    match = trans_DF.loc[trans_DF.label == wavefile[0:-4]]
-    if match.shape[0] == 1:
+    if wavefile[0:-4] in labels:
         count += 1
+        print(count)
+    else:
+        os.remove(os.getcwd()+'/audio/test/' + wavefile)
 print(count)
