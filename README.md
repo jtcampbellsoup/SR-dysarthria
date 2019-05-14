@@ -1,3 +1,6 @@
+Using Nabu speech recognition code base:
+https://github.com/vrenkens/nabu
+
 Papers to cite: 
 http://www.isle.illinois.edu/sst/pubs/2008/is2008_kim.pdf (about data)
 
