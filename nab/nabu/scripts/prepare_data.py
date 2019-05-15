@@ -12,7 +12,10 @@ import data
 
 def main(expdir, recipe, computing):
     '''main method'''
-
+    print 'expdir: '
+    print expdir
+    print 'recipe: '
+    print recipe
     if recipe is None:
         raise Exception('no recipe specified. Command usage: '
                         'nabu data --recipe=/path/to/recipe')
@@ -24,11 +27,12 @@ def main(expdir, recipe, computing):
                         '--recipe=/path/to/recipe')
     if computing not in ['standard', 'condor']:
         raise Exception('unknown computing mode: %s' % computing)
-
+    print 'above'
     #read the data conf file
     parsed_cfg = configparser.ConfigParser()
-    parsed_cfg.read(os.path.join(recipe, 'database.conf'))
-
+    parsed_cfg.read(os.path.join(recipe, 'database.cfg'))
+    print 'below'
+    print parsed_cfg.sections()
     #loop over the sections in the data config
     for name in parsed_cfg.sections():
 
@@ -36,16 +40,19 @@ def main(expdir, recipe, computing):
 
         #read the section
         conf = dict(parsed_cfg.items(name))
+        print 'conf: '
+        print conf
 
         if not os.path.exists(conf['dir']):
             os.makedirs(conf['dir'])
         else:
             print '%s already exists, skipping this section' % conf['dir']
             continue
-
+        print os.path.join(expdir, name)
         #create the expdir for this section
         if not os.path.isdir(os.path.join(expdir, name)):
             os.makedirs(os.path.join(expdir, name))
+            print 'in'
 
         #create the database configuration
         dataconf = configparser.ConfigParser()
@@ -53,7 +60,7 @@ def main(expdir, recipe, computing):
         for item in conf:
             dataconf.set(name, item, conf[item])
 
-        with open(os.path.join(expdir, name, 'database.conf'), 'w') as fid:
+        with open(os.path.join(expdir, name, 'database.cfg'), 'w') as fid:
             dataconf.write(fid)
 
         #copy the processor config

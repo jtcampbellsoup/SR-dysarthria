@@ -88,10 +88,10 @@ def fbank(signal, samplerate, conf):
         A numpy array of size (NUMFRAMES by nfilt) containing features, a numpy
         vector containing the signal energy
     '''
-
-    highfreq = int(conf['highfreq'])
-    if highfreq < 0:
-        highfreq = samplerate/2
+    print conf
+    #highfreq = int(conf['highfreq'])
+    #if highfreq < 0:
+    #    highfreq = samplerate/2
 
     signal = sigproc.preemphasis(signal, float(conf['preemph']))
     frames = sigproc.framesig(signal, float(conf['winlen'])*samplerate,
@@ -105,7 +105,7 @@ def fbank(signal, samplerate, conf):
     energy = numpy.where(energy == 0, numpy.finfo(float).eps, energy)
 
     filterbank = get_filterbanks(int(conf['nfilt']), int(conf['nfft']),
-                                 samplerate, int(conf['lowfreq']), highfreq)
+                                 samplerate, int(conf['lowfreq']), highfreq=None)
 
     # compute the filterbank energies
     feat = numpy.dot(pspec, filterbank.T)
@@ -147,9 +147,9 @@ def ssc(signal, samplerate, conf):
         vector containing the signal log-energy
     '''
 
-    highfreq = int(conf['highfreq'])
-    if highfreq < 0:
-        highfreq = samplerate/2
+    #highfreq = int(conf['highfreq'])
+    #if highfreq < 0:
+    #    highfreq = samplerate/2
     signal = sigproc.preemphasis(signal, float(conf['preemph']))
     frames = sigproc.framesig(signal, float(conf['winlen'])*samplerate,
                               float(conf['winstep'])*samplerate)

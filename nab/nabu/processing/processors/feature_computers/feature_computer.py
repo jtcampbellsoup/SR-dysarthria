@@ -40,6 +40,10 @@ class FeatureComputer(object):
         '''
 
         #compute the features and energy
+        print 'before comp_feat'
+        print sig
+        print rate
+        print self.conf
         feat = self.comp_feat(sig, rate)
 
         return feat

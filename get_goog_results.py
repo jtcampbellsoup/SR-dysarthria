@@ -2,7 +2,7 @@ import os
 import speech_recognition as sr
 import pandas as pd
 
-folder = os.getcwd() + '/Data/audio/test'
+folder = os.getcwd() + 'nabu/Data/audio/test'
 
 r = sr.Recognizer()
 
@@ -29,4 +29,4 @@ for wavefile in wavefiles:
 
 goog_results = pd.DataFrame(data={'label': labels, 'transcript': transcripts})
 
-goog_results.to_csv(os.getcwd() + '/Results/goog_results.csv')
+goog_results.to_csv(os.getcwd() + 'nabu/Results/goog_results.csv')

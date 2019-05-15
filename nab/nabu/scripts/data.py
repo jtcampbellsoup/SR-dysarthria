@@ -13,7 +13,7 @@ def main(expdir):
 
     #read the data conf file
     parsed_cfg = configparser.ConfigParser()
-    parsed_cfg.read(os.path.join(expdir, 'database.conf'))
+    parsed_cfg.read(os.path.join(expdir, 'database.cfg'))
 
     #loop over the sections in the data config
     name = parsed_cfg.sections()[0]

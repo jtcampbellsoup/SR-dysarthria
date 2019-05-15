@@ -42,7 +42,12 @@ class AudioProcessor(processor.Processor):
 
         #read the wav file
         rate, utt = _read_wav(dataline)
-
+        print 'before computing features'
+        print self
+        print utt
+        print rate
+        print self.conf
+        print self.comp
         #compute the features
         features = self.comp(utt, rate)
 
@@ -102,6 +107,7 @@ def _read_wav(wavfile):
 
     if os.path.exists(wavfile):
         #its a file
+        print 'reading wave file: %s' % wavfile
         (rate, utterance) = wav.read(wavfile)
     elif wavfile[-1] == '|':
         #its a command
