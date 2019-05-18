@@ -1,3 +1,5 @@
+nab/ directory is mostly contains starter code from Nabu speech recognition code base, though I've modified the config files and altered / debugged some of the audio and text pre-processing. All other code is my own.
+
 Using Nabu speech recognition code base:
 https://github.com/vrenkens/nabu
 
