@@ -1,9 +1,10 @@
 # This file reads in the raw transcript data, organizes it into a pandas DF, then saves
-# it as a CSV
+# it as a CSV. Will also define and output the phonetic alphabet we will use.
 
 import numpy as np
 import pandas as pd
 import os
+import nltk
 
 rootdir = os.getcwd() + '/RawTranscripts'
 trans_DF = pd.DataFrame()
@@ -46,8 +47,6 @@ trainfiles = os.listdir(os.getcwd() + '/audio/train')
 devfiles = os.listdir(os.getcwd() + '/audio/dev')
 testfiles = os.listdir(os.getcwd() + '/audio/test')
 
-trans_DF = trans_DF.assign(fileloc = "NA")
-
 print('size before: ', trans_DF.shape)
 for i in range(trans_DF.shape[0]):
     if (trans_DF.loc[i, 'train'] == 1):
@@ -59,8 +58,26 @@ for i in range(trans_DF.shape[0]):
     if (trans_DF.loc[i, 'test'] == 1):
         if ((trans_DF.loc[i, 'label'] + '.wav') in testfiles):
             trans_DF.loc[i, 'fileloc'] = trans_DF.loc[i, 'label'] + '.wav'
-
 trans_DF = trans_DF[trans_DF.fileloc != 'NA'].reset_index(drop = True)
 print('size after: ', trans_DF.shape)
+
+# find bad words (any word not in our corpus dictionary) remove files and the rows from
+# the data frame
+dict = nltk.corpus.cmudict.dict()
+badwords = set()
+allwords = dict.keys()
+for word in trans_DF.word:
+    if word not in allwords:
+        badwords.add(word)
+print(badwords)
+
+
+
+
+
+
+trans_DF = trans_DF.assign(fileloc = "NA")
+
+
 
 trans_DF.to_csv(os.getcwd() + '/trans_DF.csv')

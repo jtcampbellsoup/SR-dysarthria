@@ -1,3 +1,6 @@
+# this file formats the scp and txt files that are pointed to in the config files that
+# we use for data processing
+
 import os
 import pandas as pd
 
