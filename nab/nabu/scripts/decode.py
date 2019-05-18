@@ -20,7 +20,7 @@ def decode(expdir, testing=False):
 
     #read the database config file
     database_cfg = configparser.ConfigParser()
-    database_cfg.read(os.path.join(expdir, 'database.conf'))
+    database_cfg.read(os.path.join(expdir, 'database.cfg'))
 
     #read the recognizer config file
     recognizer_cfg = configparser.ConfigParser()

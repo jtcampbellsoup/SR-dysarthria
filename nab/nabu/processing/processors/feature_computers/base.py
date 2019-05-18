@@ -88,7 +88,7 @@ def fbank(signal, samplerate, conf):
         A numpy array of size (NUMFRAMES by nfilt) containing features, a numpy
         vector containing the signal energy
     '''
-    print conf
+    
     #highfreq = int(conf['highfreq'])
     #if highfreq < 0:
     #    highfreq = samplerate/2

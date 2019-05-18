@@ -29,7 +29,7 @@ def is_recipe(recipe):
     '''checks if directory is a recipe'''
 
     #the files that should definately be in a recipe
-    files = ('database.conf', 'model.cfg', 'trainer.cfg')
+    files = ('database.cfg', 'model.cfg', 'trainer.cfg')
 
     for f in files:
         if not os.path.exists(os.path.join(recipe, f)):

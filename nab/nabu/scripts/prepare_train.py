@@ -36,7 +36,7 @@ def main(expdir, recipe, mode, computing):
     if computing not in ['standard', 'condor']:
         raise Exception('unknown computing mode: %s' % computing)
 
-    database_cfg_file = os.path.join(recipe, 'database.conf')
+    database_cfg_file = os.path.join(recipe, 'database.cfg')
     model_cfg_file = os.path.join(recipe, 'model.cfg')
     trainer_cfg_file = os.path.join(recipe, 'trainer.cfg')
     evaluator_cfg_file = os.path.join(recipe, 'validation_evaluator.cfg')
@@ -65,7 +65,7 @@ def main(expdir, recipe, mode, computing):
         #experiment information is stored
 
         shutil.copyfile(database_cfg_file,
-                        os.path.join(expdir, 'database.conf'))
+                        os.path.join(expdir, 'database.cfg'))
         shutil.copyfile(model_cfg_file,
                         os.path.join(expdir, 'model.cfg'))
         shutil.copyfile(evaluator_cfg_file,

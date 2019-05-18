@@ -22,6 +22,9 @@ class TextProcessor(processor.Processor):
 
         self.alphabet = conf.get('processor', 'alphabet').strip().split(' ')
         self.alphabet = [c if c != '\\;' else ';' for c in self.alphabet]
+        print 'in text processor'
+        print conf.sections()
+        print conf.items('processor')
 
         #initialize the metadata
         self.max_length = 0

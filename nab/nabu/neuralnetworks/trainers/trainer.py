@@ -636,7 +636,7 @@ class Trainer(object):
                 summary_writer = tf.summary.FileWriter(
                     os.path.join(self.expdir, 'logdir'), graph)
 
-
+                  
                 #start the training loop
                 #pylint: disable=E1101
                 while not (sess.should_stop() or
@@ -652,7 +652,7 @@ class Trainer(object):
                             #get the previous validation loss
                             prev_val_loss = outputs['best_validation'].eval(
                                 session=sess)
-
+                            
                             #initialize validation
                             outputs['init_validation'].run(session=sess)
 
@@ -783,7 +783,7 @@ class Trainer(object):
                                 outputs['num_steps'],
                                 loss, lr, time.time()-start,
                                 memory_line))
-
+                    print 'I AM PRINTING THIS LINEawkefjkajwklefjklwajflkjwafejkajeflkajwlfjalwkjfeklajfe;lkajwlfejalkjfe;kla;jfewf;awjeflkaj;lwefjlakwefj;alkwjflkajw;lfjawlkfj;alkwjfklawe;flkj;waelfjl;wefj;l'   
                     outputs['increment_step'].run(session=sess)
 
         #store the model file

@@ -24,7 +24,7 @@ class Fbank(feature_computer.FeatureComputer):
         #snip the edges
         sig = snip(sig, rate, float(self.conf['winlen']),
                    float(self.conf['winstep']))
-        print(self.conf)
+        
         feat, energy = base.logfbank(sig, rate, self.conf)
 
         if self.conf['include_energy'] == 'True':

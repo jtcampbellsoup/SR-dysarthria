@@ -42,12 +42,7 @@ class AudioProcessor(processor.Processor):
 
         #read the wav file
         rate, utt = _read_wav(dataline)
-        print 'before computing features'
-        print self
-        print utt
-        print rate
-        print self.conf
-        print self.comp
+        
         #compute the features
         features = self.comp(utt, rate)
 

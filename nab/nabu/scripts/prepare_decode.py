@@ -49,11 +49,11 @@ def main(_):
     os.makedirs(os.path.join(FLAGS.expdir, 'decode'))
 
     recognizer_cfg_file = os.path.join(FLAGS.recipe, 'recognizer.cfg')
-    database_cfg_file = os.path.join(FLAGS.recipe, 'database.conf')
+    database_cfg_file = os.path.join(FLAGS.recipe, 'database.cfg')
 
     #copy the config files
     shutil.copyfile(database_cfg_file,
-                    os.path.join(FLAGS.expdir, 'decode', 'database.conf'))
+                    os.path.join(FLAGS.expdir, 'decode', 'database.cfg'))
     shutil.copyfile(recognizer_cfg_file,
                     os.path.join(FLAGS.expdir, 'decode', 'recognizer.cfg'))
 

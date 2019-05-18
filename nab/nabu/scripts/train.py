@@ -32,7 +32,7 @@ def train(clusterfile,
 
     #read the database config file
     database_cfg = configparser.ConfigParser()
-    database_cfg.read(os.path.join(expdir, 'database.conf'))
+    database_cfg.read(os.path.join(expdir, 'database.cfg'))
 
     #read the asr config file
     model_cfg = configparser.ConfigParser()

@@ -23,7 +23,7 @@ def test(expdir, testing=False):
 
     #read the database config file
     database_cfg = configparser.ConfigParser()
-    database_cfg.read(os.path.join(expdir, 'database.conf'))
+    database_cfg.read(os.path.join(expdir, 'database.cfg'))
 
     if testing:
         model_cfg = configparser.ConfigParser()
