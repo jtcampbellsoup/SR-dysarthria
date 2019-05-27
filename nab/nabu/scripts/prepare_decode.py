@@ -56,10 +56,11 @@ def main(_):
                     os.path.join(FLAGS.expdir, 'decode', 'database.cfg'))
     shutil.copyfile(recognizer_cfg_file,
                     os.path.join(FLAGS.expdir, 'decode', 'recognizer.cfg'))
-
+    shutil.copytree(os.path.join(FLAGS.expdir, 'model'),
+                    os.path.join(FLAGS.expdir, 'decode', 'model'))
     #create a link to the model
-    os.symlink(os.path.join(FLAGS.expdir, 'model'),
-               os.path.join(FLAGS.expdir, 'decode', 'model'))
+    #os.symlink(os.path.join(FLAGS.expdir, 'model'),
+               #os.path.join(FLAGS.expdir, 'decode', 'model'))
 
     if FLAGS.computing == 'condor':
 

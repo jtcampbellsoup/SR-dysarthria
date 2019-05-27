@@ -37,7 +37,7 @@ def main(expdir, recipe, computing):
         raise Exception('cannot find recipe %s' % recipe)
 
     evaluator_cfg_file = os.path.join(recipe, 'test_evaluator.cfg')
-    database_cfg_file = os.path.join(recipe, 'database.conf')
+    database_cfg_file = os.path.join(recipe, 'database.cfg')
 
     #create the testing dir
     if os.path.isdir(os.path.join(expdir, 'test')):
@@ -46,13 +46,14 @@ def main(expdir, recipe, computing):
 
     #copy the config files
     shutil.copyfile(database_cfg_file,
-                    os.path.join(expdir, 'test', 'database.conf'))
+                    os.path.join(expdir, 'test', 'database.cfg'))
     shutil.copyfile(evaluator_cfg_file,
                     os.path.join(expdir, 'test', 'test_evaluator.cfg'))
-
+    shutil.copytree(os.path.join(expdir, 'model'),
+                    os.path.join(expdir, 'test', 'model'))
     #create a link to the model
-    os.symlink(os.path.join(expdir, 'model'),
-               os.path.join(expdir, 'test', 'model'))
+    #os.symlink(os.path.join(expdir, 'model'),
+               #os.path.join(expdir, 'test', 'model'))
 
     if computing == 'condor':
 

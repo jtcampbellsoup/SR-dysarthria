@@ -586,7 +586,7 @@ class Trainer(object):
             testing: if true only the graph will be created for debugging
                 purposes
         '''
-
+        f = open('logtrack_06.txt', 'a')
         #look for the master if distributed training is done
         master = self.server.target
 
@@ -655,6 +655,9 @@ class Trainer(object):
                             
                             #initialize validation
                             outputs['init_validation'].run(session=sess)
+                            print outputs['update_loss']
+                            print outputs['eval_summaries']
+                            
 
                             #compute the validation loss
                             for i in range(outputs['valbatches']):
@@ -775,7 +778,9 @@ class Trainer(object):
                             )
                         else:
                             memory_line = ''
+                        
 
+                        f.write(str(loss) + ' ')
                         print(('WORKER %d: step %d/%d loss: %f, learning rate:'
                                ' %f \n\t time elapsed: %f sec%s')
                               %(self.task_index,
@@ -783,7 +788,6 @@ class Trainer(object):
                                 outputs['num_steps'],
                                 loss, lr, time.time()-start,
                                 memory_line))
-                    print 'I AM PRINTING THIS LINEawkefjkajwklefjklwajflkjwafejkajeflkajwlfjalwkjfeklajfe;lkajwlfejalkjfe;kla;jfewf;awjeflkaj;lwefjlakwefj;alkwjflkajw;lfjawlkfj;alkwjfklawe;flkj;waelfjl;wefj;l'   
                     outputs['increment_step'].run(session=sess)
 
         #store the model file

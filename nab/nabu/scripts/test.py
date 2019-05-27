@@ -57,10 +57,9 @@ def test(expdir, testing=False):
 
         #compute the loss
         loss, update_loss, numbatches = evaluator.evaluate()
-
         if testing:
             return
-
+        
         #create a histogram for all trainable parameters
         for param in tf.trainable_variables():
             tf.summary.histogram(param.name, param,
@@ -83,6 +82,31 @@ def test(expdir, testing=False):
 
             summary = variable_summary.eval(session=sess)
             summary_writer.add_summary(summary)
+            
+            print 'TENSORFLOW ITEMS'
+            print '---Errors----'
+            op = sess.graph.get_operations()
+            print 'errors:'
+            test = tf.get_default_graph().get_tensor_by_name("evaluate/evaluate_decoder/Sum_1:0")
+            print test.eval(session = sess)
+            print 'new_num_targets'
+            test = tf.get_default_graph().get_tensor_by_name("evaluate/evaluate_decoder/add:0")
+            print test.eval(session = sess)
+            print 'batch_targets'
+            test = tf.get_default_graph().get_tensor_by_name("evaluate/evaluate_decoder/Sum_3:0")
+            print test.eval(session = sess)
+
+            print '--CTC DECODER ---'
+            print 'loss:'
+            test = tf.get_default_graph().get_tensor_by_name("validation_loss:0")
+            print test.eval(session = sess)
+            print 'outputs:'
+            print 'references:'
+            test = tf.get_default_graph().get_tensor_by_name("evaluate/input_pipeline/batch:2")
+            print test.eval(session = sess)
+            print 'references_seq_length'
+            test = tf.get_default_graph().get_tensor_by_name("evaluate/input_pipeline/batch:3")
+            print test.eval(session = sess)
 
             for i in range(numbatches):
                 if eval_summary is not None:
@@ -90,7 +114,10 @@ def test(expdir, testing=False):
                     summary_writer.add_summary(summary, i)
                 else:
                     update_loss.run(session=sess)
-
+                    print 'loss: '
+                    temploss = loss.eval(session = sess)
+                    print temploss
+            
             loss = loss.eval(session=sess)
 
     print 'loss = %f' % loss

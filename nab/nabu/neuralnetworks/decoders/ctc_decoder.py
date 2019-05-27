@@ -25,6 +25,8 @@ class CTCDecoder(decoder.Decoder):
         for o in model.output_names:
             #get the alphabet
             self.alphabets[o] = self.conf['%s_alphabet' % o].split(' ')
+        print 'DECODER ALPHABETS:'
+        print self.alphabets
 
     def __call__(self, inputs, input_seq_length):
         '''decode a batch of data
@@ -38,7 +40,7 @@ class CTCDecoder(decoder.Decoder):
         Returns:
             - the decoded sequences as a dictionary of outputs
         '''
-
+        print 'IN CALL'
         with tf.name_scope('ctc_decoder'):
 
             #create the decoding graph
@@ -57,7 +59,7 @@ class CTCDecoder(decoder.Decoder):
                 out, _ = tf.nn.ctc_beam_search_decoder(
                     logits[o], logits_seq_length[o])
                 outputs[o] = tf.cast(out[0], tf.int32)
-
+        print outputs
         return outputs
 
     def write(self, outputs, directory, names):
@@ -91,7 +93,11 @@ class CTCDecoder(decoder.Decoder):
         Returns:
             an op to update the evalution loss
         '''
-
+        print 'CTC DECODER EVALUATION LOSS'
+        print loss
+        print outputs
+        print references
+        print reference_seq_length
         #create a variable to hold the total number of reference targets
         num_targets = tf.get_variable(
             name='num_targets',
@@ -106,7 +112,8 @@ class CTCDecoder(decoder.Decoder):
         sparse_targets = {
             o:dense_sequence_to_sparse(references[o], reference_seq_length[o])
             for o in references}
-
+        print 'sparse'
+        print sparse_targets
         #compute the number of errors made in this batch
         errors = [
             tf.reduce_sum(tf.edit_distance(
@@ -116,14 +123,16 @@ class CTCDecoder(decoder.Decoder):
             for o in outputs]
 
         errors = tf.reduce_sum(errors)
-
+        print 'Errors:'
+        print errors
         #compute the number of targets in this batch
         batch_targets = tf.reduce_sum([
             tf.reduce_sum(lengths)
             for lengths in reference_seq_length.values()])
 
         new_num_targets = num_targets + tf.cast(batch_targets, tf.float32)
-
+        print new_num_targets
+        print batch_targets
         #an operation to update the loss
         update_loss = loss.assign(
             (loss*num_targets + errors)/new_num_targets).op

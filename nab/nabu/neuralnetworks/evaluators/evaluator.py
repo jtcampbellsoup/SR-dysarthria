@@ -52,6 +52,13 @@ class Evaluator(object):
             self.target_dataconfs.append([])
             for section in sectionset:
                 self.target_dataconfs[-1].append(dict(dataconf.items(section)))
+        print 'INIT'
+        print inputs
+        print input_sections
+        print self.input_dataconfs
+        print targets
+        print target_sections
+        print self.target_dataconfs
 
     def evaluate(self):
         '''evaluate the performance of the model
@@ -103,7 +110,7 @@ class Evaluator(object):
             inputs = {
                 self.model.input_names[i]: d
                 for i, d in enumerate(data[:len(self.input_dataconfs)])}
-
+            
             input_seq_length = {
                 self.model.input_names[i]: d
                 for i, d in enumerate(seq_length[:len(self.input_dataconfs)])}
@@ -116,7 +123,17 @@ class Evaluator(object):
             target_seq_length = {
                 target_names[i]: d
                 for i, d in enumerate(seq_length[len(self.input_dataconfs):])}
-
+            print 'Evaluating'
+            print 'INPUTS:'
+            print inputs
+            print 'INPUT_SEQ_LENGTH:'
+            print input_seq_length
+            print 'TARGET NAMES'
+            print target_names
+            print 'TARGETS'
+            print targets
+            print 'TARGET_SEQ_LENGTH:'
+            print target_seq_length
             update_loss = self.update_loss(
                 loss, inputs, input_seq_length, targets, target_seq_length)
 

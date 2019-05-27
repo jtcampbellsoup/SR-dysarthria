@@ -6,7 +6,7 @@ import pandas as pd
 import os
 import nltk
 
-rootdir = os.getcwd() + '/RawTranscripts'
+rootdir = os.getcwd() + '/Data/RawTranscripts'
 trans_DF = pd.DataFrame()
 for filename in os.listdir(rootdir):
     f = open(rootdir + '/' + filename)
@@ -43,10 +43,11 @@ trans_DF = trans_DF.assign(test = np.where((trans_DF.train == 0) & (trans_DF.dev
                                            0))
 
 # match data to associated file, add column for it
-trainfiles = os.listdir(os.getcwd() + '/audio/train')
-devfiles = os.listdir(os.getcwd() + '/audio/dev')
-testfiles = os.listdir(os.getcwd() + '/audio/test')
+trainfiles = os.listdir(os.getcwd() + '/Data/audio/train')
+devfiles = os.listdir(os.getcwd() + '/Data/audio/dev')
+testfiles = os.listdir(os.getcwd() + '/Data/audio/test')
 
+trans_DF = trans_DF.assign(fileloc = "NA")
 print('size before: ', trans_DF.shape)
 for i in range(trans_DF.shape[0]):
     if (trans_DF.loc[i, 'train'] == 1):
@@ -63,21 +64,59 @@ print('size after: ', trans_DF.shape)
 
 # find bad words (any word not in our corpus dictionary) remove files and the rows from
 # the data frame
-dict = nltk.corpus.cmudict.dict()
+fulldict = nltk.corpus.cmudict.dict()
+print(len(fulldict))
 badwords = set()
-allwords = dict.keys()
-for word in trans_DF.word:
+allwords = fulldict.keys()
+print(len(allwords))
+
+count = 0
+for word in trans_DF.word.unique():
+    count += 1
+    print(count)
     if word not in allwords:
         badwords.add(word)
 print(badwords)
 
+badrows = trans_DF[trans_DF.word.isin(badwords)].reset_index(drop = True)
+trans_DF = trans_DF[~trans_DF.word.isin(badwords)].reset_index(drop = True)
+print(badrows.shape)
+print(trans_DF.shape)
 
+for i in range(badrows.shape[0]):
+    if badrows.loc[i,'train'] == 1:
+        if os.path.isfile(os.getcwd()+'/Data/audio/train/'+ badrows.loc[i, 'fileloc']):
+            os.remove(os.getcwd() + '/Data/audio/train/' + badrows.loc[i, 'fileloc'])
+    if badrows.loc[i,'dev'] == 1:
+        if os.path.isfile(os.getcwd()+'/Data/audio/dev/'+ badrows.loc[i, 'fileloc']):
+            os.remove(os.getcwd() + '/Data/audio/dev/' + badrows.loc[i, 'fileloc'])
+    if badrows.loc[i,'test'] == 1:
+        if os.path.isfile(os.getcwd()+'/Data/audio/test/'+ badrows.loc[i, 'fileloc']):
+            os.remove(os.getcwd() + '/Data/audio/test/' + badrows.loc[i, 'fileloc'])
 
+phstringlist = []
+mapdict = {}
+for word in trans_DF.word.unique():
+    phoneme = fulldict[word][0]
+    phstring = " ".join(phoneme).lower()
+    mapdict[word] = phstring
+count = 0
+for word in trans_DF.word:
+    phstringlist.append(mapdict[word])
+    count += 1
+    print(count)
+trans_DF['phonemes'] = phstringlist
 
+trans_DF.to_csv(os.getcwd() + '/Data/trans_DF.csv')
 
+alph = set()
+for phon in trans_DF.phonemes:
+    phonlist = phon.split()
+    for phn in phonlist:
+        alph.add(phn)
 
-trans_DF = trans_DF.assign(fileloc = "NA")
+f = open(os.getcwd() + '/Data/alphabet.txt', 'w')
+for a in alph:
+    f.write(a + ' ')
+f.close()
 
-
-
-trans_DF.to_csv(os.getcwd() + '/trans_DF.csv')
