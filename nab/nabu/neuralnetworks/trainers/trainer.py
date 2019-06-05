@@ -586,7 +586,7 @@ class Trainer(object):
             testing: if true only the graph will be created for debugging
                 purposes
         '''
-        f = open('logtrack_06.txt', 'a')
+        f = open('logtrack.txt', 'a')
         #look for the master if distributed training is done
         master = self.server.target
 

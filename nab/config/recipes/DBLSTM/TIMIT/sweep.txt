@@ -1,0 +1,15 @@
+4layers_1024units
+model.cfg encoder num_layers 5
+model.cfg encoder num_units 256
+
+4layers_1024units
+model.cfg encoder num_layers 5
+model.cfg encoder num_units 512
+
+5layers_1024units
+model.cfg encoder num_layers 6
+model.cfg encoder num_units 256
+
+5layers_1024units
+model.cfg encoder num_layers 6
+model.cfg encoder num_units 512
