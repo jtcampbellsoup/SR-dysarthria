@@ -39,10 +39,14 @@ class AudioProcessor(processor.Processor):
 
         Returns:
             The features as a numpy array'''
-
+        
         #read the wav file
         rate, utt = _read_wav(dataline)
-        
+        print 'rate'
+        print rate
+        print 'utt'
+        print utt
+        print utt.shape
         #compute the features
         features = self.comp(utt, rate)
 
@@ -67,7 +71,12 @@ class AudioProcessor(processor.Processor):
                         dtype=np.int32)]
                 )
             self.sequence_length_histogram[seq_length] += 1
+            print 'features'
+            print features
+            print features.shape
 
+            if dataline == 'Data/audio/train/M05_B1_C13_M7.wav':
+                np.savetxt('features_M05_B1_C13_M7.txt', features)
             return features
 
         else:
