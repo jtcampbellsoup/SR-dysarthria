@@ -1,3 +1,5 @@
+# File finds uses the Google CLoud speech recognition toolkit to get word translations of the audio files in our test set
+
 import os
 import speech_recognition as sr
 import pandas as pd
